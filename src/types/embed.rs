@@ -221,6 +221,23 @@ impl EmbedBuilder {
         self
     }
 
+    /// Set the embed image
+    pub fn image(mut self, image: EmbedImage) -> Self {
+        self.obj.image = Some(image);
+        self
+    }
+
+    /// Set the embed description
+    pub fn description(mut self, description: impl ToString) -> Self {
+        let d = description.to_string();
+        // wish this could be checked at compile time :(
+        if d.len() > 4096 {
+            panic!("Embed description length is more than 4096 characters.")
+        }
+        self.obj.description = Some(d);
+        self
+    }
+
     /// Add an [`EmbedField`] to this embed.
     pub fn add_field(mut self, field: EmbedField) -> Self {
         match self.obj.fields {
@@ -359,6 +376,44 @@ impl EmbedAuthor {
         let u = url.to_string();
 
         self.proxy_icon_url = Some(u);
+        self
+    }
+}
+
+impl Default for EmbedImage {
+    fn default() -> Self {
+        Self {
+            url: String::from(""),
+            proxy_url: String::from(""),
+            height: 0,
+            width: 0
+        }
+    }
+}
+
+impl EmbedImage {
+    /// Sets the URL of the embed
+    pub fn url(mut self, url: impl ToString) -> Self {
+        let u = url.to_string();
+        self.url = u;
+        self
+    }
+
+    /// Sets the proxied URL for the image
+    pub fn proxy_url(mut self, url: impl ToString) -> Self {
+        let u = url.to_string();
+        self.url = u;
+        self
+    }
+
+    /// Sets the dimensions of the image
+    pub fn dimensions(mut self, height: impl Into<i32>, width: impl Into<i32>) -> Self {
+        let x = width.into();
+        let y = height.into();
+
+        self.height = y;
+        self.width = x;
+
         self
     }
 }

@@ -13,6 +13,12 @@ pub mod interaction;
 /// Module containing structures for members/users.
 pub mod user;
 
+/// Module containing structures for messages.
+pub mod message;
+
+/// Module containing structures for channels.
+pub mod channel;
+
 /// Module containing structures for using [Message Components](https://discord.com/developers/docs/interactions/message-components#what-are-components)
 pub mod components;
 
